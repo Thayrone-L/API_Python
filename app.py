@@ -30,12 +30,6 @@ def criar_usuario():
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
-# Endpoint para obter um usuário por ID
-@app.route('/usuarios/<int:user_id>', methods=['GET'])
-def obter_usuario_por_id(user_id):
-    resultado = usuario_negocios.obter_usuario_por_id(user_id)
-    return jsonify(resultado)
-
 # Endpoint para obter um usuário por Login e senha
 @app.route('/usuarios/<string:login>/<string:senha>', methods=['GET'])
 def login(login, senha):
@@ -44,24 +38,6 @@ def login(login, senha):
     resultado = usuario_negocios.login(login, senha)
     return jsonify(resultado)
 
-# Endpoint para atualizar um usuário por ID
-@app.route('/usuarios/<int:user_id>', methods=['PUT'])
-def atualizar_usuario(user_id):
-    dados = request.get_json()
-    resultado = usuario_negocios.atualizar_usuario(
-        user_id,
-        dados.get('login'),
-        dados.get('senha'),
-        dados.get('nome_usuario'),
-        dados.get('perfil')
-    )
-    return jsonify(resultado)
-
-# Endpoint para excluir um usuário por ID
-@app.route('/usuarios/<int:user_id>', methods=['DELETE'])
-def excluir_usuario(user_id):
-    resultado = usuario_negocios.excluir_usuario(user_id)
-    return jsonify(resultado)
 
 if __name__ == '__main__':
     app.run(debug=True)
