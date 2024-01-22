@@ -22,7 +22,6 @@ class ConexaoBanco:
             sql = f"EXEC {nome_procedure} {placeholders}"
 
             self.cursor.execute(sql, parametros)
-            self.connection.commit()  # Correção aqui
 
             # Verifica se a consulta atual é uma SELECT antes de tentar recuperar resultados
             if self.cursor.description is not None:
@@ -35,6 +34,7 @@ class ConexaoBanco:
         except pyodbc.Error as ex:
             self.connection.rollback()
             raise ValueError(f"Erro ao executar a stored procedure: {ex}")
+
 
 
     def fechar_conexao(self):
