@@ -15,13 +15,14 @@ def criar_usuario():
         dados = request.get_json()
 
         # Validar os dados de entrada
-        if 'login' not in dados or 'senha' not in dados or 'nome_usuario' not in dados or 'perfil' not in dados:
+        if 'login' not in dados or 'senha' not in dados or 'nome_usuario' not in dados or 'cpf' not in dados or 'perfil' not in dados:
             return jsonify({"erro": "Campos obrigatórios ausentes"}), 400
 
         resultado = usuario_negocios.criar_usuario(
             dados['login'],
             dados['senha'],
             dados['nome_usuario'],
+            dados['cpf'],
             dados['perfil']
         )
 

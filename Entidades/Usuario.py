@@ -1,19 +1,25 @@
 import sys
 sys.path.append(r'C:\Users\thayr\OneDrive\Documentos\repositorios\Python\Testes\API_Python')
-
 import re
 from Enums.Perfil import Perfil
+from .Cpf import Cpf
 
 class Usuario:
-    def __init__(self, login, senha, nome_usuario, perfil):
+    def __init__(self, login, senha, nome_usuario, cpf_param, perfil):
         self.login = login
         self.senha = senha
         self.nome_usuario = nome_usuario
+        self._cpf = Cpf(cpf_param)
         self._perfil = perfil
-
-    @property
-    def id(self):
-        return self._id
+        
+    def to_json(self):
+        return {
+            'login': self.login,
+            'senha': self.senha,
+            'nome_usuario': self.nome_usuario,
+            'perfil': self.perfil,
+            'cpf_param': str(self.cpf_param)
+        }
 
     @property
     def perfil(self):
@@ -50,6 +56,18 @@ class Usuario:
     @property
     def nome_usuario(self):
         return self._nome_usuario
+    
+    @property
+    def cpf(self):
+        return self._cpf.cpf
+    
+    @cpf.setter
+    def cpf(self, novo_cpf):
+        try:
+            self._cpf.cpf = novo_cpf
+        except ValueError as e:
+            raise ValueError(f"CPF inválido: {e}")
+    
 
     @nome_usuario.setter
     def nome_usuario(self, novo_nome_usuario):

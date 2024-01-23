@@ -11,7 +11,7 @@ class _UsuarioDados:
     def inserir_usuario(self, usuario):
         try:
             self.conexao.conectar()
-            parametros = (usuario.login, usuario.senha, usuario.nome_usuario, int(usuario.perfil))
+            parametros = (usuario.login, usuario.senha, usuario.nome_usuario, usuario.cpf ,int(usuario.perfil))
             self.conexao.executar_procedure('InserirUsuario', parametros)
             self.conexao.cursor.commit()        
         except ValueError as ex:
@@ -28,15 +28,14 @@ class _UsuarioDados:
             if resultado and len(resultado) > 0:
                 usuario_data = resultado[0]
 
-                # Certifique-se de que a lista possui pelo menos 3 elementos antes de acessar o índice 2
-                if len(usuario_data) >= 2:
+                if len(usuario_data) >= 3:
                     usuario = Usuario(
-                        login= login,
-                        senha= senha,
-                        nome_usuario=usuario_data[0],
-                        perfil=usuario_data[1]
-                        # adicione outros atributos conforme necessário
-                    )
+                    login=login,
+                    senha=senha,
+                    nome_usuario=usuario_data[0],
+                    perfil=usuario_data[1],
+                    cpf_param=usuario_data[2]
+                )
                     return usuario
                 else:
                     return None

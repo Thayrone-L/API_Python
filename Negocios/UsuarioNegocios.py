@@ -8,9 +8,9 @@ class UsuarioNegocios:
     def __init__(self, dados_usuario):
         self.dados_usuario = dados_usuario
 
-    def criar_usuario(self, login, senha, nome_usuario, perfil):
+    def criar_usuario(self, login, senha, nome_usuario, cpf, perfil):
         try:
-            novo_usuario = Usuario(login, senha, nome_usuario, perfil)
+            novo_usuario = Usuario(login, senha, nome_usuario, cpf, perfil)
             self.dados_usuario.inserir_usuario(novo_usuario)
             return {"mensagem": "Usuário criado com sucesso!"}
         except ValueError as ex:
