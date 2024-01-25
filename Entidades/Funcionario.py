@@ -4,11 +4,11 @@ import re
 from Enums.Perfil import Perfil
 from .Cpf import Cpf
 
-class Usuario:
-    def __init__(self, login, senha, nome_usuario, cpf_param, perfil):
+class Funcionario:
+    def __init__(self, login, senha, nome_funcionario, cpf_param, perfil):
         self.login = login
         self.senha = senha
-        self.nome_usuario = nome_usuario
+        self.nome_funcionario = nome_funcionario
         self._cpf = Cpf(cpf_param)
         self._perfil = perfil
         
@@ -16,9 +16,9 @@ class Usuario:
         return {
             'login': self.login,
             'senha': self.senha,
-            'nome_usuario': self.nome_usuario,
-            'perfil': self.perfil,
-            'cpf_param': str(self.cpf_param)
+            'nome_funcionario': self.nome_funcionario,
+            'cpf_param': str(self.cpf),
+            'perfil': self.perfil
         }
 
     @property
@@ -37,8 +37,16 @@ class Usuario:
 
     @login.setter
     def login(self, novo_login):
-        if not isinstance(novo_login, str) or len(novo_login) < 6 or not novo_login.islower() or not novo_login.isalpha():
-            raise ValueError("Login deve conter pelo menos 6 letras minúsculas e não pode conter caracteres especiais ou espaços.")
+        if not isinstance(novo_login, (str, int)):
+            raise ValueError("Login deve conter apenas números.")
+        
+        # Se for um número, converta para string
+        novo_login = str(novo_login)
+
+        # Verifica se o login é composto apenas por dígitos e tem no máximo 10 dígitos
+        if not novo_login.isdigit() or len(novo_login) > 10:
+            raise ValueError("Login deve ser um número com no máximo 10 dígitos.")
+
         self._login = novo_login
 
     @property
@@ -54,8 +62,8 @@ class Usuario:
         self._senha = nova_senha
 
     @property
-    def nome_usuario(self):
-        return self._nome_usuario
+    def nome_funcionario(self):
+        return self._nome_funcionario
     
     @property
     def cpf(self):
@@ -69,8 +77,8 @@ class Usuario:
             raise ValueError(f"CPF inválido: {e}")
     
 
-    @nome_usuario.setter
-    def nome_usuario(self, novo_nome_usuario):
-        if not isinstance(novo_nome_usuario, str) or len(novo_nome_usuario) < 3 or not re.match("^[a-zA-ZáéíóúâêîôûãõàèìòùäëïöüçÁÉÍÓÚÂÊÎÔÛÃÕÀÈÌÒÙÄËÏÖÜÇ ]+$", novo_nome_usuario):
+    @nome_funcionario.setter
+    def nome_funcionario(self, novo_nome_funcionario):
+        if not isinstance(novo_nome_funcionario, str) or len(novo_nome_funcionario) < 3 or not re.match("^[a-zA-ZáéíóúâêîôûãõàèìòùäëïöüçÁÉÍÓÚÂÊÎÔÛÃÕÀÈÌÒÙÄËÏÖÜÇ ]+$", novo_nome_funcionario):
             raise ValueError("Nome de usuário deve conter pelo menos 3 letras, sem caracteres especiais")
-        self._nome_usuario = novo_nome_usuario
+        self._nome_funcionario = novo_nome_funcionario

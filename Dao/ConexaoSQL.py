@@ -38,8 +38,15 @@ class ConexaoBanco:
 
 
     def fechar_conexao(self):
-        if self.cursor:
-            self.cursor.close()
-        if self.connection:
-            self.connection.close()
-            print("Conexão fechada.")
+        try:
+            if self.cursor:
+                self.cursor.close()
+        except Exception as ex:
+            raise ValueError(f"Erro ao fechar o cursor: {ex}")
+        finally:
+            try:
+                if self.connection:
+                    self.connection.close()
+                    print("Conexão fechada.")
+            except Exception as ex:
+                raise ValueError(f"Erro ao fechar a conexão: {ex}")
