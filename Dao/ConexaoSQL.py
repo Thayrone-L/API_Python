@@ -33,7 +33,14 @@ class ConexaoBanco:
                 return {"mensagem": "Operação realizada com sucesso!"}
         except pyodbc.Error as ex:
             self.connection.rollback()
-            raise ValueError(f"Erro ao executar a stored procedure: {ex}")
+            error_message = str(ex)
+            start_index = error_message.find("Erro:")
+            end_index = error_message.find("!")
+    
+            if start_index != -1 and end_index != -1:
+                # Extrair a mensagem específica
+                error_message = error_message[start_index + 5:end_index + 1].strip()
+            raise ValueError(f"Erro: {error_message}")
 
 
 

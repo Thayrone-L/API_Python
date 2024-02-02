@@ -33,7 +33,7 @@ class _FuncionarioDados:
 
                 
         except ValueError as ex:
-            raise ValueError(f"Erro ao inserir funcionário: {ex}")
+            raise ValueError(f"{ex}")
         finally:
             self.conexao.fechar_conexao()
 

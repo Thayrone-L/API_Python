@@ -20,7 +20,7 @@ class FuncionarioNegocios:
                 return {"mensagem": "Funcionário já existe no sistema, verifique e tente novamente."}
 
         except ValueError as ex:
-            return {"erro": f"Erro ao criar funcionário: {str(ex)}"}
+            return {"erro": f"{str(ex)}"}
 
         
     def login(self, login, senha):
